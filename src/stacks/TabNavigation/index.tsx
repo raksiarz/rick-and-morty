@@ -9,12 +9,12 @@ export const TabNavigationStack = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Characters"
+        name="All Characters"
         component={CharacterListStack}
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="Favorites"
+        name="Liked Characters"
         component={FavoriteCharactersStack}
         options={{headerShown: false}}
       />
