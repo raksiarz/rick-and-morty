@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import {Text, View, Image } from 'react-native';
-import { atom, useAtomValue, useAtom, useSetAtom } from 'jotai';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { CharacterInfo, selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
+import LikeButton from '../../../../components/LikeButton/LikeButton';
 import * as api from '../../../../fetch';
 import {styles} from './CharacterDetails.styled';
 
@@ -40,6 +41,7 @@ const CharacterCard = () => {
             <Text>{characterInfo.gender}</Text>
           </View>
         </View>
+        <LikeButton inDetails id={characterInfo.id} />
       </View>
   )
 }

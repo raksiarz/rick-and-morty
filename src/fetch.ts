@@ -39,6 +39,10 @@ export function getfiltered(name?: string, status?: Status, species?: string, ty
     return api(`character/?${params.join('&')}`, 'GET')
 }
 
-export function getCharacterInfo(id: number | undefined) {
-    return api(`character/${'' + id}`, 'GET')
+export function getCharacterInfo(id: number | number[] | undefined) {
+    if(typeof id === 'number') {
+        return api(`character/${'' + id}`, 'GET')
+    }
+
+    return api(`character/${id?.join(',')}`, "GET")
 }
