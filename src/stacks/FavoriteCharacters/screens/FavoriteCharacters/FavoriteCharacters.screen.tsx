@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React, { useEffect } from 'react';
 import { useAtomValue, useSetAtom, atom, useAtom } from 'jotai';
-import * as api from '../../../../fetch'
+import * as api from '../../../../api'
 import {styles} from './FavoriteCharacters.styled';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Button, Text, FlatList, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import * as api from '../../../../fetch';
+import * as api from '../../../../api';
 import {styles} from './CharacterList.styled';
 import CharactersList from '../../../../components/CharactersList/CharactersList';
 import { useIsFocused } from '@react-navigation/native';
@@ -30,7 +30,6 @@ export type CharacterInfo = {
 const charactersAtom = atom<CharacterInfo[]>([])
 export const selectedCharacterAtom = atom<number>()
 const searchAtom = atom('')
-
 
 const CharacterSearch = () => {
   const [search, setSearch] = useAtom(searchAtom)
