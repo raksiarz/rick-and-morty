@@ -3,7 +3,7 @@ import { View, Button, Text, FlatList, TextInput, TouchableOpacity, ScrollView, 
 import {useNavigation} from '@react-navigation/native';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {CharacterListStackNavigationProp} from '../../CharacterList.routes';
-import { getAll, getfiltered } from '../../../../fetch';
+import * as api from '../../../../fetch';
 import {styles} from './CharacterList.styled';
 
 export type CharacterInfo = {
@@ -42,7 +42,6 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
   return (
     <TouchableOpacity
       onPress={(): void => {
-        console.log('id: ', character.id)
         setSelectedCharacter(character.id)
         navigate('CharacterDetailsStack', {
           screen: 'CharacterDetailsScreen',
@@ -83,7 +82,7 @@ const CharacterSearch = () => {
 
   const onSubmit = async () => {
     try {
-      const resp = await getfiltered(search)
+      const resp = await api.getfiltered(search)
       const json = await resp.json()
       setCharacters(() => [
         ...json.results as CharacterInfo[]
@@ -113,7 +112,7 @@ const CharacterListScreen = () => {
   useEffect(() => {
     async function getCharacters() {
       try {
-        const resp = await getAll()
+        const resp = await api.getAll()
         const json = await resp.json()
         setCharacters(() => [
           ...json.results as CharacterInfo[]

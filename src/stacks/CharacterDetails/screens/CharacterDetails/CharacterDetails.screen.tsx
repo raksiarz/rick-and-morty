@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Text, View, Button } from 'react-native';
+import {Text, View, Image } from 'react-native';
 import { atom, useAtomValue, useAtom, useSetAtom } from 'jotai';
 import { CharacterInfo, selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import * as api from '../../../../fetch';
@@ -7,11 +7,52 @@ import {styles} from './CharacterDetails.styled';
 
 const characterInfoAtom = atom<CharacterInfo>({} as CharacterInfo)
 
+const isEmptyAtom = atom((get) => {
+  const info = get(characterInfoAtom)
+  return !Object.keys(info).length
+})
+
 const CharacterCard = () => {
   const characterInfo = useAtomValue(characterInfoAtom)
 
   return (
-    <Text>{characterInfo.name}</Text>
+      <View style={styles.card}>
+        <Image style={styles.image} source={{ uri: characterInfo.image }} />
+        <View style={styles.infoContainer}>
+          <View style={styles.nameContainer}>
+            <Text style={styles.nameTitle}>name</Text>
+            <Text style={styles.name}>{characterInfo.name}</Text>
+          </View>
+          <View>
+            <Text>status</Text>
+            <Text>{characterInfo.status}</Text>
+          </View>
+          <View>
+            <Text>origin</Text>
+            <Text>{characterInfo.origin.name}</Text>
+          </View>
+          <View>
+            <Text>species</Text>
+            <Text>{characterInfo.species}</Text>
+          </View>
+          <View>
+            <Text>gender</Text>
+            <Text>{characterInfo.gender}</Text>
+          </View>
+        </View>
+      </View>
+  )
+}
+
+const Comp = () => {
+  const isEmpty = useAtomValue(isEmptyAtom)
+
+  if(isEmpty) {
+    return <Text>Loading...</Text>
+  }
+
+  return (
+    <CharacterCard />
   )
 }
 
@@ -34,7 +75,7 @@ const CharacterDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CharacterCard />
+      <Comp />
     </View>
   );
 };

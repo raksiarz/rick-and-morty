@@ -16,21 +16,27 @@ export function getAll() {
     return api('character', 'GET')
 }
 
-export function getfiltered(name: string, status?: Status, species?: string, type?: string, gender?: Gender) {
-    let url =  `character/?name=${name}`
+export function getfiltered(name?: string, status?: Status, species?: string, type?: string, gender?: Gender) {
+    const params = []
+    if(name) {
+        params.push(`name=${name}`)
+    }
     if(status) {
-        url += `&status=${status}`
+        params.push(`status=${status}`)
     }
     if(species) {
-        url += `&species=${species}`
+        params.push(`species=${species}`)
     }
     if(type) {
-        url += `&type=${type}`
+        params.push(`type=${type}`)
     }
     if(gender) {
-        url += `&gender=${gender}`
+        params.push(`gender=${gender}`)
     }
-    return api(url, 'GET')
+
+    console.log('fetch: ', `?${params.join('&')}`)
+
+    return api(`character/?${params.join('&')}`, 'GET')
 }
 
 export function getCharacterInfo(id: number | undefined) {
