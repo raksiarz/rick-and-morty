@@ -44,7 +44,6 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
 }
 
 const CharactersList = ({ charactersList }: CharactersListProps) => {
-
   return (
     <ScrollView style={styles.listContainer}>
       {charactersList.map(el => (

@@ -1,5 +1,5 @@
-import { Text, Pressable } from "react-native"
-import { atom, useSetAtom } from "jotai"
+import { Text, Pressable, Image } from "react-native"
+import { atom, useAtomValue, useSetAtom } from "jotai"
 import { styles } from './LikeButton.styled'
 
 interface LikeButtonProps {
@@ -7,22 +7,38 @@ interface LikeButtonProps {
     id: number
 }
 
-export const likesAtom = atom<number[]>([])
+export const favouritesIdsAtom = atom<number[]>([])
 
-const LikeButton = ({ inDetails, id }: LikeButtonProps) => {
-    const setLike = useSetAtom(likesAtom)
+const Star = ({ id, inDetails }: any) => {
+    const favouritesIds = useAtomValue(favouritesIdsAtom)
+    let star 
 
-    const onPress = () => {
-        console.log('liked')
-        setLike((likes) => [
-            ...likes,
-            id
-        ])
+    if(favouritesIds.includes(id)) {
+        star = require('../../icons/star-full.png')
+    } else if(inDetails) {
+        star = require('../../icons/white-star-empty.png')
+    } else {
+        star = require('../../icons/dark-star-empty.png')
     }
 
     return (
-        <Pressable onPress={onPress} style={[styles.button, inDetails && styles.inDetails]}>
-            <Text style={styles.buttonText}>like</Text>
+        <Image source={star} style={styles.icon} />
+    )
+}
+
+const LikeButton = ({ inDetails, id }: LikeButtonProps) => {
+    const setFavouritesIds = useSetAtom(favouritesIdsAtom)
+
+    const onPress = () => {
+        setFavouritesIds((likes) => likes.includes(id) ? likes = likes.filter(l => l !== id) : [...likes, id])
+    }
+
+    const text = inDetails ? 'add to liked' : 'like'
+
+    return (
+        <Pressable onPress={onPress} style={[styles.button, inDetails && styles.buttonInDetails]}>
+            <Star inDetails={inDetails} id={id}/>
+            <Text style={[styles.text, inDetails && styles.textInDetails]}>{ text }</Text>
         </Pressable>
     )
 }

@@ -54,7 +54,9 @@ const Comp = () => {
   }
 
   return (
-    <CharacterCard />
+    <View style={styles.container}>
+      <CharacterCard />
+    </View>
   )
 }
 
@@ -76,9 +78,7 @@ const CharacterDetailsScreen = () => {
   }, [])
 
   return (
-    <View style={styles.container}>
-      <Comp />
-    </View>
+    <Comp />
   );
 };
 

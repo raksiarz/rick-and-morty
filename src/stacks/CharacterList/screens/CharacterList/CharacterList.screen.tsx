@@ -4,6 +4,7 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as api from '../../../../fetch';
 import {styles} from './CharacterList.styled';
 import CharactersList from '../../../../components/CharactersList/CharactersList';
+import { useIsFocused } from '@react-navigation/native';
 
 export type CharacterInfo = {
   created: string,
@@ -79,6 +80,7 @@ const Comp = () => {
 
 const CharacterListScreen = () => {
   const setCharacters = useSetAtom(charactersAtom)
+  const isFocuesd = useIsFocused()
   
   useEffect(() => {
     async function getCharacters() {
@@ -93,7 +95,7 @@ const CharacterListScreen = () => {
       }
     }
     getCharacters()
-  }, [])
+  }, [isFocuesd])
 
   return (
     <Comp />
