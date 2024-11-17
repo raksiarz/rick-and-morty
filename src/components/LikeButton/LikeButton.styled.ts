@@ -2,6 +2,9 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     button: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -19,6 +22,9 @@ export const styles = StyleSheet.create({
         color: '#224229'
     },
     buttonInDetails: {
+        position: 'relative',
+        top: 0,
+        right: 0,
         width: '100%',
         height:34,
         borderRadius: 100,

@@ -34,7 +34,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
           <Text>Status {character.status}</Text>
           <Text>Species {character.species}</Text>
         </View>
-        <View>
+        <View style={styles.imageContainer}>
           <Image style={styles.image} source={{ uri: character.image }} />
           <LikeButton id={character.id} />
         </View>

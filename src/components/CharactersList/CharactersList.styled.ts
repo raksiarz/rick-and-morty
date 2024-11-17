@@ -19,12 +19,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
-  image: {
+  imageContainer: {
     height: 200,
     width: 200,
     borderWidth: 1,
     borderRadius: 24,
     borderColor: '#224229',
+    overflow: 'hidden',
+  },
+  image: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
   },
   listContainer: {
     flexDirection: 'column',
