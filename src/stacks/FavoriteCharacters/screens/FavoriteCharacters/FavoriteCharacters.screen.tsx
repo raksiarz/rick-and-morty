@@ -1,12 +1,12 @@
-import {View, Text, ScrollView} from 'react-native';
 import React, { useEffect } from 'react';
-import { useAtomValue, useSetAtom, atom, useAtom } from 'jotai';
-import * as api from '../../../../api'
+import {View, Text, ScrollView} from 'react-native';
+import { useAtomValue, useSetAtom, atom } from 'jotai';
+import { useIsFocused } from '@react-navigation/native';
 import {styles} from './FavoriteCharacters.styled';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
-import { useIsFocused } from '@react-navigation/native';
+import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
 const areIdsEmptyAtom = atom((get) => {

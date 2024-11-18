@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { CharacterInfo } from '../../stacks/CharacterList/screens/CharacterList/CharacterList.screen';
 import LikeButton from '../LikeButton/LikeButton';
 import { styles } from './CharacterCard.styled';

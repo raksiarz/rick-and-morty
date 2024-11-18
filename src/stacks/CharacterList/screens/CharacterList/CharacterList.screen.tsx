@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { View, Button, Text, FlatList, TextInput, TouchableOpacity, ScrollView, Image, Pressable } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Image, Pressable } from 'react-native';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {useNavigation} from '@react-navigation/native';
-import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
-import * as api from '../../../../api';
-import {styles} from './CharacterList.styled';
-import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import { useIsFocused } from '@react-navigation/native';
+import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
+import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
+import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
+import {styles} from './CharacterList.styled';
+import * as api from '../../../../api';
 
 export type CharacterInfo = {
   created: string,
@@ -31,23 +32,7 @@ export type CharacterInfo = {
 
 export const selectedCharacterAtom = atom<number>()
 const charactersAtom = atom<CharacterInfo[]>([])
-const paginationAtom = atom<number>(1)
 const searchAtom = atom('')
-
-const PaginationButtons = () => {
-  const setPagination = useSetAtom(paginationAtom)
-
-  return (
-    <View>
-      <Pressable onPress={() => setPagination(prev => prev -= 1)}>
-        <Text>Prev</Text>
-      </Pressable>
-      <Pressable onPress={() => setPagination(prev => prev += 1)}>
-        <Text>Next</Text>
-      </Pressable>
-    </View>
-  )
-}
 
 const CharacterSearch = () => {
   const [search, setSearch] = useAtom(searchAtom)
