@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  topContainer: {
+    marginBottom: 'auto',
+  },
   listContainer: {
     flexDirection: 'column',
     gap: 50

@@ -31,6 +31,7 @@ export type CharacterInfo = {
 }
 
 export const selectedCharacterAtom = atom<number>()
+const fetchingAtom = atom<boolean>(false)
 const charactersAtom = atom<CharacterInfo[]>([])
 const searchAtom = atom('')
 
@@ -95,23 +96,32 @@ const renderCard = ({ item }: {item: CharacterInfo}) => {
 
 const CharactersList = () => {
   const charactersInfo = useAtomValue(charactersAtom)
+  const fetching = useAtomValue(fetchingAtom)
+
+  if(fetching) {
+    return <Text style={{ flex: 1 }}>Loading...</Text>
+  }
+
   return (
     <FlatList
       data={charactersInfo}
       renderItem={renderCard}
       keyExtractor={item => '' + item.id}
+      ListFooterComponent={PaginationButtons}
     />
   )
 }
 
 const CharacterListScreen = () => {
   const setCharacters = useSetAtom(charactersAtom)
+  const setFetching = useSetAtom(fetchingAtom)
   const pagination = useAtomValue(paginationAtom)
   const isFocused = useIsFocused()
   
   useEffect(() => {
     async function getCharacters() {
       try {
+        setFetching(true)
         const resp = await api.getAll(pagination)
         const json = await resp.json()
         setCharacters(() => [
@@ -119,6 +129,8 @@ const CharacterListScreen = () => {
         ])
       } catch(err) {
         console.log('There was error getting all characters: ', err)
+      } finally {
+        setFetching(false)
       }
     }
     getCharacters()
@@ -126,10 +138,11 @@ const CharacterListScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Characters</Text>
-      <CharacterSearch />
+      <View style={styles.topContainer}>
+        <Text style={styles.title}>Characters</Text>
+        <CharacterSearch />
+      </View>
       <CharactersList />
-      <PaginationButtons />
     </View>
   );
 };
