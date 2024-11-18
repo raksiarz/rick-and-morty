@@ -1,5 +1,5 @@
 import { Text, Pressable, Image } from "react-native"
-import { atom, useAtomValue, useSetAtom } from "jotai"
+import { atom, useAtomValue, useAtom } from "jotai"
 import { styles } from './LikeButton.styled'
 
 interface LikeButtonProps {
@@ -14,7 +14,7 @@ const Star = ({ id, inDetails }: any) => {
     let star 
 
     if(favouritesIds.includes(id)) {
-        star = require('../../icons/star-full.png')
+        star = require('../../icons/gold-star-full.png')
     } else if(inDetails) {
         star = require('../../icons/white-star-empty.png')
     } else {
@@ -27,13 +27,13 @@ const Star = ({ id, inDetails }: any) => {
 }
 
 const LikeButton = ({ inDetails, id }: LikeButtonProps) => {
-    const setFavouritesIds = useSetAtom(favouritesIdsAtom)
+    const [favouritesIds, setFavouritesIds] = useAtom(favouritesIdsAtom)
 
     const onPress = () => {
         setFavouritesIds((likes) => likes.includes(id) ? likes = likes.filter(l => l !== id) : [...likes, id])
     }
 
-    const text = inDetails ? 'add to liked' : 'like'
+    const text = inDetails && favouritesIds.includes(id) ? 'remove from Liked' : inDetails ? 'add to liked' : 'like'
 
     return (
         <Pressable onPress={onPress} style={[styles.button, inDetails && styles.buttonInDetails]}>

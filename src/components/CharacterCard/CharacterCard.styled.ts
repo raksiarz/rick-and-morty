@@ -6,17 +6,28 @@ export const styles = StyleSheet.create({
     height: 224,
     display: "flex",
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-around',
     borderWidth: 1,
     borderRadius: 24,
+    padding: 12,
     borderColor: '#224229',
     backgroundColor: '#F4F6F5'
   },
   infoContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    width: 114,
+  },
+  textTagContainer: {
+    rowGap: 4,
+    padding: 8,
+  },
+  textTagTitle: {
+    textTransform: 'uppercase',
+    fontSize: 12,
+    color: '#59695C'
+  },
+  textTagValue: {
+    fontSize: 16,
+    color: '#162C1B',
     flexWrap: 'wrap',
   },
   imageContainer: {

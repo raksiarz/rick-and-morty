@@ -1,6 +1,6 @@
 type FetchMethod = "POST" | "GET"
 type Status = "alive" | "dead" | "unknown"
-type Gender = "male" | "female" | "genderless" | "unknown"
+type Species = "human" | "humanoid"
 
 function api(route: string, method: FetchMethod) {
     return fetch(`https://rickandmortyapi.com/api/${route}`, {
@@ -19,7 +19,7 @@ export function getAll(pagination: number) {
     return api(`character/?page=${'' + pagination}`, 'GET')
 }
 
-export function getfiltered(name?: string, status?: Status, species?: string, type?: string, gender?: Gender) {
+export function getfiltered(name?: string, status?: Status, species?: Species, ) {
     const params = []
     if(name) {
         params.push(`name=${name}`)
@@ -29,12 +29,6 @@ export function getfiltered(name?: string, status?: Status, species?: string, ty
     }
     if(species) {
         params.push(`species=${species}`)
-    }
-    if(type) {
-        params.push(`type=${type}`)
-    }
-    if(gender) {
-        params.push(`gender=${gender}`)
     }
 
     console.log('fetch: ', `?${params.join('&')}`)

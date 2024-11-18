@@ -18,12 +18,16 @@ export const styles = StyleSheet.create({
   card: {
     width: '100%',
     height: '100%',
+    display: "flex",
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#224229',
+    backgroundColor: '#FFF',
     borderRadius: 24,
+    padding: 24,
   },
   nameContainer: {
-    display: 'flex',
+    marginVertical: 4,
   },
   nameTitle: {
     textTransform: 'uppercase',
@@ -34,6 +38,30 @@ export const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: 500,
   },
-  infoContainer: {
+  bottomContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    marginVertical: 16,
   },
+  textTagContainer: {
+    width: 147,
+    height: 55,
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: '#F4F6F5',
+    borderRadius: 10,
+    padding: 8,
+    gap: 4,
+  },
+  textTagTitle: {
+    textTransform: 'uppercase',
+    fontSize: 12,
+    color: '#59695C'
+  },
+  textTagValue: {
+    fontSize: 16,
+    color: '#162C1B',
+  }
 });

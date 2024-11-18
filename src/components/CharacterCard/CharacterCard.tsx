@@ -7,14 +7,28 @@ interface CharacterCardProps {
   character: CharacterInfo
 }
 
+interface TextTagProps {
+  title: string
+  value: string
+}
+
+const TextTag = ({ title, value}: TextTagProps) => {
+  return (
+    <View style={styles.textTagContainer}>
+      <Text style={styles.textTagTitle}>{ title }</Text>
+      <Text style={styles.textTagValue}>{ value }</Text>
+    </View>
+  )
+} 
+
 const CharacterCard = ({ character }: CharacterCardProps) => {
 
   return (
       <View style={styles.card}>
         <View style={styles.infoContainer}>
-          <Text>Name {character.name}</Text>
-          <Text>Status {character.status}</Text>
-          <Text>Species {character.species}</Text>
+          <TextTag title='name' value={character.name} />
+          <TextTag title='status' value={character.status} />
+          <TextTag title='species' value={character.species} />
         </View>
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{ uri: character.image }} />

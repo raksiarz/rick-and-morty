@@ -1,19 +1,20 @@
-import { atom, useSetAtom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import { View, Pressable, Text } from 'react-native'
 import styles from "./PaginationButtons.styled";
 
 export const paginationAtom = atom<number>(1)
 
 const PaginationButtons = () => {
-  const setPagination = useSetAtom(paginationAtom)
+  const [pagination, setPagination] = useAtom(paginationAtom)
 
   return (
-    <View>
-      <Pressable onPress={() => setPagination(prev => prev -= 1)}>
-        <Text>Prev</Text>
-      </Pressable>
-      <Pressable onPress={() => setPagination(prev => prev += 1)}>
-        <Text>Next</Text>
+    <View style={styles.paginationContainer}>
+      {pagination > 1 && <Pressable onPress={() => setPagination(prev => prev -= 1)} style={styles.paginationButton}>
+        <Text style={styles.text}>Prev</Text>
+      </Pressable>}
+      <Text style={{ color: '#59695C', marginHorizontal: 65 }}>Page: { pagination }</Text>
+      <Pressable onPress={() => setPagination(prev => prev += 1)} style={styles.paginationButton}>
+        <Text style={styles.text}>Next</Text>
       </Pressable>
     </View>
   )

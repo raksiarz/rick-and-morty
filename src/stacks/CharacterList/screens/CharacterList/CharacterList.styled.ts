@@ -9,10 +9,6 @@ export const styles = StyleSheet.create({
   topContainer: {
     marginBottom: 'auto',
   },
-  listContainer: {
-    flexDirection: 'column',
-    gap: 50
-  },
   card: {
     width: 358,
     height: 224,
@@ -50,6 +46,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     paddingVertical: 14,
     paddingHorizontal: 12,
+    marginBottom: 10,
   },
   inputIcon: {
     width: 14,

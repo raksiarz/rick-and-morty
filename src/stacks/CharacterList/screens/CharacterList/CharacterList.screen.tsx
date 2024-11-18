@@ -6,6 +6,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
+import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './CharacterList.styled';
 import * as api from '../../../../api';
 
@@ -71,12 +72,14 @@ const CharacterSearch = () => {
 
 const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
+  const setCharacterInfo = useSetAtom(characterInfoAtom)
 
   const {navigate} = useNavigation<CharacterListStackNavigationProp>();
   return (
     <TouchableOpacity
       key={item.id}
       onPress={(): void => {
+        setCharacterInfo({} as CharacterInfo)
         setSelectedCharacter(item.id)
         navigate('CharacterDetailsStack', {
           screen: 'CharacterDetailsScreen',
@@ -99,7 +102,7 @@ const CharactersList = () => {
   const fetching = useAtomValue(fetchingAtom)
 
   if(fetching) {
-    return <Text style={{ flex: 1 }}>Loading...</Text>
+    return <Text style={{ flex: 1, marginTop: 25 }}>Loading...</Text>
   }
 
   return (
@@ -108,6 +111,7 @@ const CharactersList = () => {
       renderItem={renderCard}
       keyExtractor={item => '' + item.id}
       ListFooterComponent={PaginationButtons}
+      contentContainerStyle={{ gap: 10 }}
     />
   )
 }
