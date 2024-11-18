@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Button, Text, FlatList, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Button, Text, FlatList, TextInput, TouchableOpacity, ScrollView, Image, Pressable } from 'react-native';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import {useNavigation} from '@react-navigation/native';
+import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
 import * as api from '../../../../api';
 import {styles} from './CharacterList.styled';
-import CharactersList from '../../../../components/CharactersList/CharactersList';
+import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import { useIsFocused } from '@react-navigation/native';
 
 export type CharacterInfo = {
@@ -27,9 +29,25 @@ export type CharacterInfo = {
   url: string
 }
 
-const charactersAtom = atom<CharacterInfo[]>([])
 export const selectedCharacterAtom = atom<number>()
+const charactersAtom = atom<CharacterInfo[]>([])
+const paginationAtom = atom<number>(1)
 const searchAtom = atom('')
+
+const PaginationButtons = () => {
+  const setPagination = useSetAtom(paginationAtom)
+
+  return (
+    <View>
+      <Pressable onPress={() => setPagination(prev => prev -= 1)}>
+        <Text>Prev</Text>
+      </Pressable>
+      <Pressable onPress={() => setPagination(prev => prev += 1)}>
+        <Text>Next</Text>
+      </Pressable>
+    </View>
+  )
+}
 
 const CharacterSearch = () => {
   const [search, setSearch] = useAtom(searchAtom)
@@ -65,26 +83,51 @@ const CharacterSearch = () => {
   )
 }
 
-const Comp = () => {
-  const charactersInfo = useAtomValue(charactersAtom)
+const Card = ({ item }: {item: CharacterInfo}) => {
+  const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
 
+  const {navigate} = useNavigation<CharacterListStackNavigationProp>();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Characters</Text>
-      <CharacterSearch />
-      <CharactersList charactersList={charactersInfo} />
-    </View>
+    <TouchableOpacity
+      key={item.id}
+      onPress={(): void => {
+        setSelectedCharacter(item.id)
+        navigate('CharacterDetailsStack', {
+          screen: 'CharacterDetailsScreen',
+        });
+      }}
+    >
+      <CharacterCard key={item.id} character={item} />
+    </TouchableOpacity>
+  )
+}
+
+const renderCard = ({ item }: {item: CharacterInfo}) => {
+  return (
+    <Card item={item} />
+  )
+}
+
+const CharactersList = () => {
+  const charactersInfo = useAtomValue(charactersAtom)
+  return (
+    <FlatList
+      data={charactersInfo}
+      renderItem={renderCard}
+      keyExtractor={item => '' + item.id}
+    />
   )
 }
 
 const CharacterListScreen = () => {
   const setCharacters = useSetAtom(charactersAtom)
-  const isFocuesd = useIsFocused()
+  const pagination = useAtomValue(paginationAtom)
+  const isFocused = useIsFocused()
   
   useEffect(() => {
     async function getCharacters() {
       try {
-        const resp = await api.getAll()
+        const resp = await api.getAll(pagination)
         const json = await resp.json()
         setCharacters(() => [
           ...json.results as CharacterInfo[]
@@ -94,10 +137,15 @@ const CharacterListScreen = () => {
       }
     }
     getCharacters()
-  }, [isFocuesd])
+  }, [isFocused, pagination])
 
   return (
-    <Comp />
+    <View style={styles.container}>
+      <Text style={styles.title}>Characters</Text>
+      <CharacterSearch />
+      <CharactersList />
+      <PaginationButtons />
+    </View>
   );
 };
 

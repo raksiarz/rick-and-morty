@@ -1,11 +1,11 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React, { useEffect } from 'react';
 import { useAtomValue, useSetAtom, atom, useAtom } from 'jotai';
 import * as api from '../../../../api'
 import {styles} from './FavoriteCharacters.styled';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
-import CharactersList from '../../../../components/CharactersList/CharactersList';
+import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import { useIsFocused } from '@react-navigation/native';
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
@@ -14,8 +14,19 @@ const areIdsEmptyAtom = atom((get) => {
   return !ids.length
 })
 
-const FavouriteCharacters = () => {
+const CharactersList = () => {
   const favouriteCharacters = useAtomValue(favouriteCharactersAtom)
+
+  return (
+    <ScrollView style={styles.listContainer}>
+      {favouriteCharacters.map(el => (
+        <CharacterCard key={el.id} character={el} />
+      ))}
+    </ScrollView>
+  )
+}
+
+const FavouriteCharacters = () => {
   const areIdsEmpty = useAtomValue(areIdsEmptyAtom)
 
   if(areIdsEmpty) {
@@ -23,7 +34,7 @@ const FavouriteCharacters = () => {
   }
 
   return (
-    <CharactersList charactersList={favouriteCharacters} />
+    <CharactersList />
   )
 }
 

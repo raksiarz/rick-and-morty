@@ -12,8 +12,11 @@ function api(route: string, method: FetchMethod) {
     })
 }
 
-export function getAll() {
-    return api('character', 'GET')
+export function getAll(pagination: number) {
+    if(pagination < 1) {
+        pagination = 1
+    }
+    return api(`character/?page=${'' + pagination}`, 'GET')
 }
 
 export function getfiltered(name?: string, status?: Status, species?: string, type?: string, gender?: Gender) {
