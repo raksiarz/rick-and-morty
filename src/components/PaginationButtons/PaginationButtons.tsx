@@ -1,6 +1,6 @@
 import { atom, useAtom, useAtomValue } from 'jotai'
 import { View, Pressable, Text } from 'react-native'
-import { pagesAtom } from '../../stacks/CharacterList/screens/CharacterList/CharacterList.screen';
+import { pagesAtom } from '../../stacks/TabNavigation/screens/CharacterList/CharacterList.screen';
 import styles from "./PaginationButtons.styled";
 
 export const paginationAtom = atom<number>(1)
