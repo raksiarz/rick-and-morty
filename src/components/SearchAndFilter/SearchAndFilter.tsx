@@ -119,6 +119,7 @@ const CharacterSearch = () => {
         style={styles.input}
         placeholder='Search the characters'
         textAlignVertical='center'
+        placeholderTextColor={'#59695C'}
       />
     </View>
   )
