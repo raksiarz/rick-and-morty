@@ -1,12 +1,4 @@
-export type Status = "alive" | "dead" | "unknown"
-export type Species = "human" | "humanoid"
-type FilteredParams = {
-    name?: string
-    status?: Status[]
-    species?: Species[]
-    id?: number | number[] | undefined
-    page?: number
-}
+import { FilteredParams } from "./types"
 
 function api(route: string) {
     return fetch(`https://rickandmortyapi.com/api/${route}`, {

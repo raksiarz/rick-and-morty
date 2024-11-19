@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
+import {View, Text, Pressable, FlatList} from 'react-native';
 import { useAtomValue, useSetAtom, atom } from 'jotai';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import {styles} from './FavoriteCharacters.styled';
+import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
-import { CharacterListStackNavigationProp } from '../../../CharacterList/CharacterList.routes';
 import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import { fetchingAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
+import {styles} from './FavoriteCharacters.styled';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])

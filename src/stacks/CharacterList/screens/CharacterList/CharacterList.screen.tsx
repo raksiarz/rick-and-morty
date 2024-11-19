@@ -9,28 +9,8 @@ import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFil
 import { searchAtom, statusAtom, speciesAtom } from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './CharacterList.styled';
+import { CharacterInfo } from '../../../../types'
 import * as api from '../../../../api';
-
-export type CharacterInfo = {
-  created: string,
-  episoded: string[],
-  gender: string,
-  id: number,
-  image: string,
-  location: {
-    name: string,
-    url: string,
-  },
-  name: string,
-  origin: {
-    name: string,
-    url: string
-  },
-  species: string,
-  status: string,
-  type: string,
-  url: string
-}
 
 export const selectedCharacterAtom = atom<number>()
 export const charactersAtom = atom<CharacterInfo[]>([])

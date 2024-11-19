@@ -1,6 +1,6 @@
 import { View, Pressable, Image, TextInput, Text } from 'react-native'
 import { atom, useAtom, useSetAtom } from 'jotai'
-import { Species, Status } from '../../api';
+import { Species, Status } from '../../types';
 import CheckBox from '../CheckBox/CheckBox';
 import styles from "./SearchAndFilter.styled";
 import { paginationAtom } from '../PaginationButtons/PaginationButtons';
