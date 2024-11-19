@@ -18,12 +18,11 @@ export type CharacterInfo = {
   type: string,
   url: string
 }
-export type Status = "alive" | "dead" | "unknown"
-export type Species = "human" | "humanoid"
+export type Status = "alive" | "dead" | "unknown" | null
+export type Species = "human" | "humanoid" | null
 export type FilteredParams = {
     name?: string
-    status?: Status[]
-    species?: Species[]
-    id?: number | number[] | undefined
+    status?: Status
+    species?: Species
     page?: number
 }

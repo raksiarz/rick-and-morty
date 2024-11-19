@@ -6,11 +6,11 @@ import styles from "./SearchAndFilter.styled";
 import { paginationAtom } from '../PaginationButtons/PaginationButtons';
 
 export const searchAtom = atom('')
-export const statusAtom = atom<Status[]>([])
-export const speciesAtom = atom<Species[]>([])
+export const statusAtom = atom<Status>()
+export const speciesAtom = atom<Species>()
 const searchValueAtom = atom('')
-const statusValueAtom = atom<Status[]>([])
-const speciesValueAtom = atom<Species[]>([])
+const statusValueAtom = atom<Status>()
+const speciesValueAtom = atom<Species>()
 const visibleAtom = atom(false)
 
 const Dropdown = () => {
@@ -22,8 +22,8 @@ const Dropdown = () => {
   const setPagination = useSetAtom(paginationAtom)
 
   const reset = () => {
-    setStatusValue([])
-    setSpeciesValue([])
+    setStatusValue(null)
+    setSpeciesValue(null)
   }
 
   const apply = async () => {
@@ -34,11 +34,11 @@ const Dropdown = () => {
   }
 
   const onPressStatus = (s: Status) => {
-    setStatusValue(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+    setStatusValue(s)
   }
 
   const onPressSpecies = (s: Species) => {
-    setSpeciesValue(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+    setSpeciesValue(s)
   }
 
   if(visible) {
@@ -47,16 +47,16 @@ const Dropdown = () => {
         <View>
           <Text style={styles.dropdownContainerText}>status</Text>
           <View style={styles.optionsContainer}>
-            <CheckBox text={'Alive'} isChecked={statusValue.includes('alive')} onPress={() => onPressStatus('alive')} />
-            <CheckBox text={'Dead'} isChecked={statusValue.includes('dead')} onPress={() => onPressStatus('dead')} />
-            <CheckBox text={'Unknown'} isChecked={statusValue.includes('unknown')} onPress={() => onPressStatus('unknown')} />
+            <CheckBox text={'Alive'} isChecked={statusValue === 'alive'} onPress={() => onPressStatus('alive')} />
+            <CheckBox text={'Dead'} isChecked={statusValue === 'dead'} onPress={() => onPressStatus('dead')} />
+            <CheckBox text={'Unknown'} isChecked={statusValue === 'unknown'} onPress={() => onPressStatus('unknown')} />
           </View>
         </View>
         <View >
           <Text style={styles.dropdownContainerText}>species</Text>
           <View style={styles.optionsContainer}>
-            <CheckBox text={'Human'} isChecked={speciesValue.includes('human')} onPress={() => onPressSpecies('human')} />
-            <CheckBox text={'Humanoid'} isChecked={speciesValue.includes('humanoid')} onPress={() => onPressSpecies('humanoid')} />
+            <CheckBox text={'Human'} isChecked={speciesValue === 'human'} onPress={() => onPressSpecies('human')} />
+            <CheckBox text={'Humanoid'} isChecked={speciesValue === 'humanoid'} onPress={() => onPressSpecies('humanoid')} />
           </View>
         </View>
         <View style={styles.bottomContainer}>

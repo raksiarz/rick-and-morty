@@ -10,14 +10,8 @@ function api(route: string) {
     })
 }
 
-export function getFiltered({name, status, species, id, page}: FilteredParams) {
+export function getFiltered({name, status, species, page}: FilteredParams) {
     const params = []
-    let ids = ''
-    if(typeof id === 'number') {
-        ids = `${'' + id}`
-    } else if(!!id?.length){
-        ids = `${id.join(',')}`
-    }
 
     if(name) {
         params.push(`name=${name}`)
@@ -32,5 +26,12 @@ export function getFiltered({name, status, species, id, page}: FilteredParams) {
         params.push(`page=${page}`)
     }
 
-    return api(`character/${ids}/?${params.join('&')}`)
+    return api(`character/?${params.join('&')}`)
+}
+
+export function getCharacterInfo(id: number | number[] | undefined) {
+    if(typeof id === 'number') {
+        return api(`character/${'' + id}`)
+    }
+    return api(`character/${id?.join(',')}`)
 }

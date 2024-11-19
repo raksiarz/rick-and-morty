@@ -1,22 +1,36 @@
 import React, { useEffect } from 'react';
 import {View, Text, Pressable, FlatList} from 'react-native';
-import { useAtomValue, useSetAtom, atom } from 'jotai';
+import { useAtomValue, useSetAtom, atom, useAtom } from 'jotai';
 import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import Header from '../../../../components/Header/Header';
-import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
+import SearchAndFilter, { searchAtom, speciesAtom, statusAtom } from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { selectedCharacterAtom } from '../CharacterList/CharacterList.screen';
 import { fetchingAtom } from '../CharacterList/CharacterList.screen';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './FavoriteCharacters.styled';
-import { CharacterInfo } from '../../../../types';
+import { CharacterInfo, Species, Status } from '../../../../types';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
 const areIdsEmptyAtom = atom((get) => {
   const ids = get(favouritesIdsAtom)
   return !ids.length
+})
+
+const displayedFavouritesAtom = atom((get) => {
+  const favourites = get(favouriteCharactersAtom)
+  const search = get(searchAtom)
+  const species = get(speciesAtom)
+  const status = get(statusAtom)
+
+  return favourites.filter(f => {
+    if(f.name.includes(search)) {
+      return true
+    }
+    return false
+  })
 })
 
 const Card = ({ item }: {item: CharacterInfo}) => {
@@ -43,7 +57,7 @@ const renderCard = ({ item }: { item: CharacterInfo }) => {
 }
 
 const CharactersList = () => {
-  const favouriteCharacters = useAtomValue(favouriteCharactersAtom)
+  const displayedFavourites = useAtomValue(displayedFavouritesAtom)
   const fetching = useAtomValue(fetchingAtom)
 
   if(fetching) {
@@ -52,7 +66,7 @@ const CharactersList = () => {
 
   return (
     <FlatList
-      data={favouriteCharacters}
+      data={displayedFavourites}
       renderItem={renderCard}
       keyExtractor={item => '' + item.id}
       contentContainerStyle={{ gap: 10 }}
@@ -82,7 +96,7 @@ const FavoriteCharactersScreen = () => {
     async function getCharacters() {
       if(areIdsEmpty) return;
       try {
-        const resp = await api.getFiltered({id: favouritesIds})
+        const resp = await api.getCharacterInfo(favouritesIds)
         const json = await resp.json()
         const isArray = Array.isArray(json)
         setFavouriteCharacters(() => isArray ? [

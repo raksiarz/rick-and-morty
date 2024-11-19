@@ -71,7 +71,7 @@ const CharacterDetailsScreen = () => {
   useEffect(() => {
     async function getCharacter() {
       try {
-        const resp = await api.getFiltered({id: selectedCharacter})
+        const resp = await api.getCharacterInfo(selectedCharacter)
         const json = await resp.json()
         setCharacterInfo(json)
       } catch (err) {
