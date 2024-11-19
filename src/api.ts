@@ -5,6 +5,7 @@ type FilteredParams = {
     status?: Status[]
     species?: Species[]
     id?: number | number[] | undefined
+    page?: number
 }
 
 function api(route: string) {
@@ -17,14 +18,7 @@ function api(route: string) {
     })
 }
 
-export function getAll(pagination: number) {
-    if(pagination < 1) {
-        pagination = 1
-    }
-    return api(`character/?page=${'' + pagination}`)
-}
-
-export function getFiltered({name, status, species, id}: FilteredParams) {
+export function getFiltered({name, status, species, id, page}: FilteredParams) {
     const params = []
     let ids = ''
     if(typeof id === 'number') {
@@ -41,6 +35,9 @@ export function getFiltered({name, status, species, id}: FilteredParams) {
     }
     if(species) {
         params.push(`species=${species}`)
+    }
+    if(page) {
+        params.push(`page=${page}`)
     }
 
     return api(`character/${ids}/?${params.join('&')}`)

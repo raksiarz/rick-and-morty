@@ -1,50 +1,44 @@
 import { View, Pressable, Image, TextInput, Text } from 'react-native'
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { CharacterInfo, charactersAtom, fetchingAtom } from '../../stacks/CharacterList/screens/CharacterList/CharacterList.screen';
+import { atom, useAtom, useSetAtom } from 'jotai'
 import { Species, Status } from '../../api';
 import CheckBox from '../CheckBox/CheckBox';
-import * as api from '../../api'
 import styles from "./SearchAndFilter.styled";
+import { paginationAtom } from '../PaginationButtons/PaginationButtons';
 
-const searchAtom = atom('')
+export const searchAtom = atom('')
+export const statusAtom = atom<Status[]>([])
+export const speciesAtom = atom<Species[]>([])
+const searchValueAtom = atom('')
+const statusValueAtom = atom<Status[]>([])
+const speciesValueAtom = atom<Species[]>([])
 const visibleAtom = atom(false)
-const statusAtom = atom<Status[]>([])
-const speciesAtom = atom<Species[]>([])
 
 const Dropdown = () => {
   const [visible, setVisible] = useAtom(visibleAtom)
-  const [status, setStatus] = useAtom(statusAtom)
-  const [species, setSpecies] = useAtom(speciesAtom)
-  const setFetching = useSetAtom(fetchingAtom)
-  const setCharacters = useSetAtom(charactersAtom)
+  const setStatus = useSetAtom(statusAtom)
+  const setSpecies = useSetAtom(speciesAtom)
+  const [statusValue, setStatusValue] = useAtom(statusValueAtom)
+  const [speciesValue, setSpeciesValue] = useAtom(speciesValueAtom)
+  const setPagination = useSetAtom(paginationAtom)
 
   const reset = () => {
-    setStatus([])
-    setSpecies([])
+    setStatusValue([])
+    setSpeciesValue([])
   }
 
   const apply = async () => {
-    try {
-      setFetching(true)
-      setVisible(false)
-      const resp = await api.getFiltered({status: status, species: species})
-      const json = await resp.json()
-      setCharacters(() => [
-        ...json.results as CharacterInfo[]
-      ])
-    } catch (err) {
-      console.log("there was error getting filtered items: ", err)
-    } finally {
-      setFetching(false)
-    }
+    setPagination(1)
+    setStatus(statusValue)
+    setSpecies(speciesValue)
+    setVisible(false)
   }
 
   const onPressStatus = (s: Status) => {
-    setStatus(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+    setStatusValue(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
   }
 
   const onPressSpecies = (s: Species) => {
-    setSpecies(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+    setSpeciesValue(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
   }
 
   if(visible) {
@@ -53,16 +47,16 @@ const Dropdown = () => {
         <View>
           <Text style={styles.dropdownContainerText}>status</Text>
           <View style={styles.optionsContainer}>
-            <CheckBox text={'Alive'} isChecked={status.includes('alive')} onPress={() => onPressStatus('alive')} />
-            <CheckBox text={'Dead'} isChecked={status.includes('dead')} onPress={() => onPressStatus('dead')} />
-            <CheckBox text={'Unknown'} isChecked={status.includes('unknown')} onPress={() => onPressStatus('unknown')} />
+            <CheckBox text={'Alive'} isChecked={statusValue.includes('alive')} onPress={() => onPressStatus('alive')} />
+            <CheckBox text={'Dead'} isChecked={statusValue.includes('dead')} onPress={() => onPressStatus('dead')} />
+            <CheckBox text={'Unknown'} isChecked={statusValue.includes('unknown')} onPress={() => onPressStatus('unknown')} />
           </View>
         </View>
         <View >
           <Text style={styles.dropdownContainerText}>species</Text>
           <View style={styles.optionsContainer}>
-            <CheckBox text={'Human'} isChecked={species.includes('human')} onPress={() => onPressSpecies('human')} />
-            <CheckBox text={'Humanoid'} isChecked={species.includes('humanoid')} onPress={() => onPressSpecies('humanoid')} />
+            <CheckBox text={'Human'} isChecked={speciesValue.includes('human')} onPress={() => onPressSpecies('human')} />
+            <CheckBox text={'Humanoid'} isChecked={speciesValue.includes('humanoid')} onPress={() => onPressSpecies('humanoid')} />
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -98,27 +92,17 @@ const CharacterFilter = () => {
 }
 
 const CharacterSearch = () => {
-  const [search, setSearch] = useAtom(searchAtom)
-  const setFetching = useSetAtom(fetchingAtom)
-  const setCharacters = useSetAtom(charactersAtom)
+  const [searchValue, setSearchValue] = useAtom(searchValueAtom)
+  const setSearch = useSetAtom(searchAtom)
+  const setPagination = useSetAtom(paginationAtom)
 
   const onChange = (value: string) => {
-    setSearch(value)
+    setSearchValue(value)
   }
 
   const onSubmit = async () => {
-    try {
-      setFetching(true)
-      const resp = await api.getFiltered({name: search})
-      const json = await resp.json()
-      setCharacters(() => [
-        ...json.results as CharacterInfo[]
-      ])
-    } catch (err) {
-      console.log("there was error getting filtered items: ", err)
-    } finally {
-      setFetching(false)
-    }
+    setPagination(1)
+    setSearch(searchValue)
   }
 
   return (
@@ -127,7 +111,7 @@ const CharacterSearch = () => {
       <TextInput
         onSubmitEditing={onSubmit}
         onChangeText={onChange}
-        value={search}
+        value={searchValue}
         style={styles.input}
         placeholder='Search the characters'
         textAlignVertical='center'

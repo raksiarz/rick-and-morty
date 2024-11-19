@@ -6,6 +6,7 @@ import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
+import { searchAtom, statusAtom, speciesAtom } from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './CharacterList.styled';
 import * as api from '../../../../api';
@@ -34,6 +35,7 @@ export type CharacterInfo = {
 export const selectedCharacterAtom = atom<number>()
 export const charactersAtom = atom<CharacterInfo[]>([])
 export const fetchingAtom = atom<boolean>(false)
+export const pagesAtom = atom<number>()
 
 const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
@@ -84,15 +86,20 @@ const CharactersList = () => {
 const CharacterListScreen = () => {
   const setCharacters = useSetAtom(charactersAtom)
   const setFetching = useSetAtom(fetchingAtom)
+  const setPages = useSetAtom(pagesAtom)
   const pagination = useAtomValue(paginationAtom)
+  const search = useAtomValue(searchAtom)
+  const species = useAtomValue(speciesAtom)
+  const status = useAtomValue(statusAtom)
   const isFocused = useIsFocused()
   
   useEffect(() => {
     async function getCharacters() {
       try {
         setFetching(true)
-        const resp = await api.getAll(pagination)
+        const resp = await api.getFiltered({page: pagination, name: search, status, species})
         const json = await resp.json()
+        setPages(json.info.pages)
         setCharacters(() => [
           ...json.results as CharacterInfo[]
         ])
@@ -103,7 +110,7 @@ const CharacterListScreen = () => {
       }
     }
     getCharacters()
-  }, [isFocused, pagination])
+  }, [isFocused, pagination, search, species, status])
 
   return (
     <View style={styles.container}>
