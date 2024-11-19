@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import { CharacterInfo } from '../../stacks/CharacterList/screens/CharacterList/CharacterList.screen';
+import { CharacterInfo } from '../../types';
 import LikeButton from '../LikeButton/LikeButton';
 import { styles } from './CharacterCard.styled';
 
