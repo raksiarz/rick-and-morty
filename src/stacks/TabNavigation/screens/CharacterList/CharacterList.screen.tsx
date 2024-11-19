@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, FlatList, Pressable } from 'react-native';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
-import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
+import {MainStackNavigationProp} from '../../../Main/Main.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
@@ -21,7 +21,7 @@ const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
   const setCharacterInfo = useSetAtom(characterInfoAtom)
 
-  const {navigate} = useNavigation<CharacterListStackNavigationProp>();
+  const {navigate} = useNavigation<MainStackNavigationProp>();
   return (
     <Pressable
       key={item.id}

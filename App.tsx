@@ -1,12 +1,12 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 
-import {TabNavigationStack} from './src/stacks/TabNavigation';
+import {MainStack} from './src/stacks/Main';
 
 function App(): React.JSX.Element {
   return (
     <NavigationContainer>
-      <TabNavigationStack />
+      <MainStack />
     </NavigationContainer>
   );
 }
