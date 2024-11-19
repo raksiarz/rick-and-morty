@@ -23,16 +23,12 @@ const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
   const setCharacterInfo = useSetAtom(characterInfoAtom)
 
-  const {navigate} = useNavigation<CharacterListStackNavigationProp>();
   return (
     <Pressable
       key={item.id}
       onPress={(): void => {
         setCharacterInfo({} as CharacterInfo)
         setSelectedCharacter(item.id)
-        navigate('CharacterDetailsStack', {
-          screen: 'CharacterDetailsScreen',
-        });
       }}
     >
       <CharacterCard key={item.id} character={item} />

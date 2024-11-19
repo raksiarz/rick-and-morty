@@ -118,6 +118,7 @@ const CharacterSearch = () => {
         value={search}
         style={styles.input}
         placeholder='Search the characters'
+        textAlignVertical='center'
       />
     </View>
   )
