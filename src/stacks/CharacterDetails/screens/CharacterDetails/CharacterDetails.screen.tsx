@@ -3,6 +3,7 @@ import {Text, View, Image } from 'react-native';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { selectedCharacterAtom } from '../../../TabNavigation/screens/CharacterList/CharacterList.screen';
 import LikeButton from '../../../../components/LikeButton/LikeButton';
+import Header from '../../../../components/Header/Header';
 import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api';
 import {styles} from './CharacterDetails.styled';
@@ -82,6 +83,7 @@ const CharacterDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Header />
       <Comp />
     </View>
   );

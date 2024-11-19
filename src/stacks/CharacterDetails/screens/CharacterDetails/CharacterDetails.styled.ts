@@ -10,14 +10,14 @@ export const styles = StyleSheet.create({
   image: {
     width: 310,
     height: 310,
-    margin: 10,
+    marginBottom: 10,
     borderWidth: 1,
     borderRadius: 24,
     borderColor: '#224229'
   },
   card: {
     width: '100%',
-    height: '100%',
+    height: 'auto',
     display: "flex",
     alignItems: 'center',
     borderWidth: 1,

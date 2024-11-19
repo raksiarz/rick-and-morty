@@ -4,6 +4,7 @@ import { atom, useAtomValue, useSetAtom } from 'jotai';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {MainStackNavigationProp} from '../../../Main/Main.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
+import Header from '../../../../components/Header/Header';
 import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { searchAtom, statusAtom, speciesAtom } from '../../../../components/SearchAndFilter/SearchAndFilter';
@@ -94,6 +95,7 @@ const CharacterListScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.topContainer}>
         <Text style={styles.title}>Characters</Text>
         <SearchAndFilter />

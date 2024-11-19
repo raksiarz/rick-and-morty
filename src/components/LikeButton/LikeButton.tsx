@@ -34,9 +34,10 @@ const LikeButton = ({ inDetails, id }: LikeButtonProps) => {
     }
 
     const text = inDetails && favouritesIds.includes(id) ? 'remove from Liked' : inDetails ? 'add to liked' : 'like'
+    const likedInList = favouritesIds.includes(id) && !inDetails
 
     return (
-        <Pressable onPress={onPress} style={[styles.button, inDetails && styles.buttonInDetails]}>
+        <Pressable onPress={onPress} style={[styles.button, likedInList && styles.likedButton, inDetails && styles.buttonInDetails]}>
             <Star inDetails={inDetails} id={id}/>
             <Text style={[styles.text, inDetails && styles.textInDetails]}>{ text }</Text>
         </Pressable>

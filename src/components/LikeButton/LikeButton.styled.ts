@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 100,
         borderColor: '#224229',
-        backgroundColor: '#DAE4DC'
+        backgroundColor: '#fff',
     },
     text: {
         fontSize: 14,
@@ -40,5 +40,8 @@ export const styles = StyleSheet.create({
         width: 16,
         height: 16,
         marginRight: 5,
+    },
+    likedButton: {
+        backgroundColor: '#DAE4DC'
     }
 })

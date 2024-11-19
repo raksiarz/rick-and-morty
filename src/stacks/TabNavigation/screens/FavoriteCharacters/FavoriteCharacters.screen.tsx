@@ -4,6 +4,7 @@ import { useAtomValue, useSetAtom, atom } from 'jotai';
 import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
+import Header from '../../../../components/Header/Header';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { selectedCharacterAtom } from '../CharacterList/CharacterList.screen';
 import { fetchingAtom } from '../CharacterList/CharacterList.screen';
@@ -96,6 +97,7 @@ const FavoriteCharactersScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.topContainer}>
         <Text style={styles.title}>Characters</Text>
         <SearchAndFilter />
