@@ -12,7 +12,7 @@ const CheckBox = ({text, isChecked, onPress}: CheckBoxProps) => {
     return (
         <Pressable onPress={onPress} style={styles.checkboxContainer}>
             <View style={[styles.tickBox, isChecked && styles.tickBoxChecked]}>
-                { isChecked && <Image source={require('../../icons/tick-mark.png')}/> }
+                { isChecked && <Image style={styles.tickLogo} source={require('../../icons/tick-mark.png')}/> }
             </View>
             <Text style={styles.checkboxText}>{text}</Text>
         </Pressable>

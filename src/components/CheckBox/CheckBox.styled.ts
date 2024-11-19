@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     checkboxText: {
         fontSize: 16,
         color: '#162C1B'
+    },
+    tickLogo: {
+        width: 12.04,
+        height: 8.53, 
     }
 })
 
