@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import {Text, View, Image } from 'react-native';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { CharacterInfo, selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
+import { selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import LikeButton from '../../../../components/LikeButton/LikeButton';
+import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api';
 import {styles} from './CharacterDetails.styled';
 

@@ -3,13 +3,13 @@ import {View, Text, Pressable, FlatList} from 'react-native';
 import { useAtomValue, useSetAtom, atom } from 'jotai';
 import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
-import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import { fetchingAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './FavoriteCharacters.styled';
+import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
