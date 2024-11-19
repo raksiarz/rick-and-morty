@@ -34,29 +34,6 @@ export const styles = StyleSheet.create({
     borderRadius: 24,
     borderColor: '#224229',
   },
-  inputContainer: {
-    display: "flex",
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 36,
-    width: 358,
-    borderWidth: 1,
-    borderRadius: 100,
-    borderColor: '#162C1B',
-    backgroundColor: '#FFF',
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    marginBottom: 10,
-  },
-  inputIcon: {
-    width: 14,
-    height: 14,
-    marginLeft: 3,
-  },
-  input: {
-    fontSize: 16,
-    color: '#59695C',
-  },
   title: {
     fontWeight: 500,
     fontSize: 36,
@@ -64,5 +41,5 @@ export const styles = StyleSheet.create({
     marginRight: 'auto',
     marginLeft: 16,
     marginVertical: 16,
-  }
+  },
 });

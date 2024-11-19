@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Image, Pressable } from 'react-native';
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import {useNavigation} from '@react-navigation/native';
-import { useIsFocused } from '@react-navigation/native';
+import { View, Text, FlatList, Pressable } from 'react-native';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import { CharacterListStackNavigationProp } from '../../CharacterList.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
 import PaginationButtons, { paginationAtom } from '../../../../components/PaginationButtons/PaginationButtons';
+import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './CharacterList.styled';
 import * as api from '../../../../api';
@@ -32,43 +32,8 @@ export type CharacterInfo = {
 }
 
 export const selectedCharacterAtom = atom<number>()
-const fetchingAtom = atom<boolean>(false)
-const charactersAtom = atom<CharacterInfo[]>([])
-const searchAtom = atom('')
-
-const CharacterSearch = () => {
-  const [search, setSearch] = useAtom(searchAtom)
-  const setCharacters = useSetAtom(charactersAtom)
-
-  const onChange = (value: string) => {
-    setSearch(value)
-  }
-
-  const onSubmit = async () => {
-    try {
-      const resp = await api.getfiltered(search)
-      const json = await resp.json()
-      setCharacters(() => [
-        ...json.results as CharacterInfo[]
-      ])
-    } catch (err) {
-      console.log("there was error gettin filtered items: ", err)
-    }
-  }
-
-  return (
-    <View style={styles.inputContainer}>
-      <Image source={require('../../../../icons/magnifying-glass.png')} style={styles.inputIcon} />
-      <TextInput
-        onSubmitEditing={onSubmit}
-        onChangeText={onChange}
-        value={search}
-        style={styles.input}
-        placeholder='Search the characters'
-      />
-    </View>
-  )
-}
+export const charactersAtom = atom<CharacterInfo[]>([])
+export const fetchingAtom = atom<boolean>(false)
 
 const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
@@ -76,7 +41,7 @@ const Card = ({ item }: {item: CharacterInfo}) => {
 
   const {navigate} = useNavigation<CharacterListStackNavigationProp>();
   return (
-    <TouchableOpacity
+    <Pressable
       key={item.id}
       onPress={(): void => {
         setCharacterInfo({} as CharacterInfo)
@@ -87,7 +52,7 @@ const Card = ({ item }: {item: CharacterInfo}) => {
       }}
     >
       <CharacterCard key={item.id} character={item} />
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -144,7 +109,7 @@ const CharacterListScreen = () => {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.title}>Characters</Text>
-        <CharacterSearch />
+        <SearchAndFilter />
       </View>
       <CharactersList />
     </View>

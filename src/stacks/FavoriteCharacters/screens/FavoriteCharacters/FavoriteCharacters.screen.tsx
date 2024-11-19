@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Pressable, FlatList} from 'react-native';
 import { useAtomValue, useSetAtom, atom } from 'jotai';
-import { useIsFocused } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import {styles} from './FavoriteCharacters.styled';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
+import { CharacterListStackNavigationProp } from '../../../CharacterList/CharacterList.routes';
 import { CharacterInfo } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
+import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
+import { selectedCharacterAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
+import { fetchingAtom } from '../../../CharacterList/screens/CharacterList/CharacterList.screen';
+import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
@@ -14,15 +19,48 @@ const areIdsEmptyAtom = atom((get) => {
   return !ids.length
 })
 
+const Card = ({ item }: {item: CharacterInfo}) => {
+  const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
+  const setCharacterInfo = useSetAtom(characterInfoAtom)
+
+  const {navigate} = useNavigation<CharacterListStackNavigationProp>();
+  return (
+    <Pressable
+      key={item.id}
+      onPress={(): void => {
+        setCharacterInfo({} as CharacterInfo)
+        setSelectedCharacter(item.id)
+        navigate('CharacterDetailsStack', {
+          screen: 'CharacterDetailsScreen',
+        });
+      }}
+    >
+      <CharacterCard key={item.id} character={item} />
+    </Pressable>
+  )
+}
+
+const renderCard = ({ item }: { item: CharacterInfo }) => {
+  return (
+    <Card item={item} />
+  )
+}
+
 const CharactersList = () => {
   const favouriteCharacters = useAtomValue(favouriteCharactersAtom)
+  const fetching = useAtomValue(fetchingAtom)
+
+  if(fetching) {
+    return <Text style={{ flex: 1, marginTop: 25 }}>Loading...</Text>
+  }
 
   return (
-    <ScrollView style={styles.listContainer}>
-      {favouriteCharacters.map(el => (
-        <CharacterCard key={el.id} character={el} />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={favouriteCharacters}
+      renderItem={renderCard}
+      keyExtractor={item => '' + item.id}
+      contentContainerStyle={{ gap: 10 }}
+    />
   )
 }
 
@@ -46,7 +84,7 @@ const FavoriteCharactersScreen = () => {
 
   useEffect(() => {
     async function getCharacters() {
-      if(areIdsEmpty) return
+      if(areIdsEmpty) return;
       try {
         const resp = await api.getCharacterInfo(favouritesIds)
         const json = await resp.json()
@@ -63,6 +101,10 @@ const FavoriteCharactersScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <Text style={styles.title}>Characters</Text>
+        <SearchAndFilter />
+      </View>
       <FavouriteCharacters />
     </View>
   );
