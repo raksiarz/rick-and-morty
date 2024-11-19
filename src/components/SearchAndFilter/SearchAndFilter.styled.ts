@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     zIndex: 10,
     top: 42,
     width: 358,
-    height: 325,
+    height: 'auto',
     borderWidth: 1,
     borderRadius: 12,
     padding: 16,
-    gap: 8,
+    gap: 24,
     borderColor: '#224229',
     backgroundColor: '#fff',
   },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-between'
   },
   dropdownButton: {
     display: 'flex',
@@ -88,7 +88,11 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: '#59695C',
     marginBottom: 8,
-  }
+  },
+  optionsContainer: {
+    display: 'flex',
+    gap: 8,
+  },
 })
 
 export default styles

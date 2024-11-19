@@ -64,7 +64,7 @@ const FavouriteCharacters = () => {
   const areIdsEmpty = useAtomValue(areIdsEmptyAtom)
 
   if(areIdsEmpty) {
-    return <Text>Favourites are empty</Text>
+    return <Text style={{ marginBottom: 'auto' }} >Favourites are empty</Text>
   }
 
   return (
@@ -82,7 +82,7 @@ const FavoriteCharactersScreen = () => {
     async function getCharacters() {
       if(areIdsEmpty) return;
       try {
-        const resp = await api.getCharacterInfo(favouritesIds)
+        const resp = await api.getFiltered({id: favouritesIds})
         const json = await resp.json()
         const isArray = Array.isArray(json)
         setFavouriteCharacters(() => isArray ? [

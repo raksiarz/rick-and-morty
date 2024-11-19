@@ -1,9 +1,10 @@
-export type Status = Array<"alive" | "dead" | "unknown">
-export type Species = Array<"human" | "humanoid">
+export type Status = "alive" | "dead" | "unknown"
+export type Species = "human" | "humanoid"
 type FilteredParams = {
-    name?: string,
-    status?: Status,
-    species?: Species
+    name?: string
+    status?: Status[]
+    species?: Species[]
+    id?: number | number[] | undefined
 }
 
 function api(route: string) {
@@ -23,8 +24,15 @@ export function getAll(pagination: number) {
     return api(`character/?page=${'' + pagination}`)
 }
 
-export function getFiltered({name, status, species}: FilteredParams) {
+export function getFiltered({name, status, species, id}: FilteredParams) {
     const params = []
+    let ids = ''
+    if(typeof id === 'number') {
+        ids = `${'' + id}`
+    } else if(!!id?.length){
+        ids = `${id.join(',')}`
+    }
+
     if(name) {
         params.push(`name=${name}`)
     }
@@ -35,13 +43,5 @@ export function getFiltered({name, status, species}: FilteredParams) {
         params.push(`species=${species}`)
     }
 
-    return api(`character/?${params.join('&')}`)
-}
-
-export function getCharacterInfo(id: number | number[] | undefined) {
-    if(typeof id === 'number') {
-        return api(`character/${'' + id}`)
-    }
-
-    return api(`character/${id?.join(',')}`)
+    return api(`character/${ids}/?${params.join('&')}`)
 }

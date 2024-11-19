@@ -8,8 +8,8 @@ import styles from "./SearchAndFilter.styled";
 
 const searchAtom = atom('')
 const visibleAtom = atom(false)
-const statusAtom = atom<Status>([])
-const speciesAtom = atom<Species>([])
+const statusAtom = atom<Status[]>([])
+const speciesAtom = atom<Species[]>([])
 
 const Dropdown = () => {
   const [visible, setVisible] = useAtom(visibleAtom)
@@ -39,19 +39,31 @@ const Dropdown = () => {
     }
   }
 
+  const onPressStatus = (s: Status) => {
+    setStatus(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+  }
+
+  const onPressSpecies = (s: Species) => {
+    setSpecies(prev => prev.includes(s) ? prev = prev.filter(p => p !== s) : [...prev, s])
+  }
+
   if(visible) {
     return (
       <View style={styles.dropdownContainer}>
         <View>
           <Text style={styles.dropdownContainerText}>status</Text>
-          <CheckBox value={'alive'} text={'Alive'} />
-          <CheckBox value={'dead'} text={'Dead'} />
-          <CheckBox value={'unknown'} text={'Unknown'} />
+          <View style={styles.optionsContainer}>
+            <CheckBox text={'Alive'} isChecked={status.includes('alive')} onPress={() => onPressStatus('alive')} />
+            <CheckBox text={'Dead'} isChecked={status.includes('dead')} onPress={() => onPressStatus('dead')} />
+            <CheckBox text={'Unknown'} isChecked={status.includes('unknown')} onPress={() => onPressStatus('unknown')} />
+          </View>
         </View>
-        <View>
+        <View >
           <Text style={styles.dropdownContainerText}>species</Text>
-          <CheckBox value={'human'} text={'Human'} />
-          <CheckBox value={'humanoid'} text={'Humanoid'} />
+          <View style={styles.optionsContainer}>
+            <CheckBox text={'Human'} isChecked={species.includes('human')} onPress={() => onPressSpecies('human')} />
+            <CheckBox text={'Humanoid'} isChecked={species.includes('humanoid')} onPress={() => onPressSpecies('humanoid')} />
+          </View>
         </View>
         <View style={styles.bottomContainer}>
           <Pressable style={[styles.dropdownButton, styles.resetButton]} onPress={reset}>
