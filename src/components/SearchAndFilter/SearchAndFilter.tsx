@@ -12,6 +12,7 @@ const searchValueAtom = atom('')
 const statusValueAtom = atom<Status>()
 const speciesValueAtom = atom<Species>()
 const visibleAtom = atom(false)
+const inputFocusAtom = atom<boolean>(false)
 
 const Dropdown = () => {
   const [visible, setVisible] = useAtom(visibleAtom)
@@ -97,6 +98,7 @@ const CharacterFilter = () => {
 
 const CharacterSearch = () => {
   const [searchValue, setSearchValue] = useAtom(searchValueAtom)
+  const [inputFocus, setInputFocus] = useAtom(inputFocusAtom)
   const setSearch = useSetAtom(searchAtom)
   const setPagination = useSetAtom(paginationAtom)
 
@@ -105,8 +107,15 @@ const CharacterSearch = () => {
   }
 
   const onSubmit = async () => {
+    setInputFocus(false)
     setPagination(1)
     setSearch(searchValue)
+  }
+  
+  const onCancel = () => {
+    if(inputFocus) {
+      setSearchValue('')
+    }
   }
 
   return (
@@ -120,7 +129,11 @@ const CharacterSearch = () => {
         placeholder='Search the characters'
         textAlignVertical='center'
         placeholderTextColor={'#59695C'}
+        onFocus={() => setInputFocus(true)}
       />
+      <Pressable onPress={onCancel} style={styles.inputClearButton}>
+        <Image source={require('../../icons/delete.png')} style={{ width: 15, height: 15 }}/>
+      </Pressable>
     </View>
   )
 }

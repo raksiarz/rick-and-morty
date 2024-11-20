@@ -93,6 +93,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     gap: 8,
   },
+  inputClearButton: {
+    width: 20,
+    height: 20,
+    marginLeft: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+  }
 })
 
 export default styles
