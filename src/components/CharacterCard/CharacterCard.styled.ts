@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
  card: {
-    width: 358,
+    width: 'auto',
     height: 224,
     display: "flex",
     flexDirection: 'row',
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 12,
     borderColor: '#224229',
-    backgroundColor: '#F4F6F5'
+    backgroundColor: '#F4F6F5',
   },
   infoContainer: {
     width: 114,

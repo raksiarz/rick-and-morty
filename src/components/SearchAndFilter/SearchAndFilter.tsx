@@ -15,13 +15,16 @@ const visibleAtom = atom(false)
 
 const Dropdown = () => {
   const [visible, setVisible] = useAtom(visibleAtom)
-  const setStatus = useSetAtom(statusAtom)
-  const setSpecies = useSetAtom(speciesAtom)
   const [statusValue, setStatusValue] = useAtom(statusValueAtom)
   const [speciesValue, setSpeciesValue] = useAtom(speciesValueAtom)
+  const [searchValue, setSearchValue] = useAtom(searchValueAtom)
+  const setSearch = useSetAtom(searchAtom)
+  const setStatus = useSetAtom(statusAtom)
+  const setSpecies = useSetAtom(speciesAtom)
   const setPagination = useSetAtom(paginationAtom)
 
   const reset = () => {
+    setSearchValue('')
     setStatusValue(null)
     setSpeciesValue(null)
   }
@@ -30,6 +33,7 @@ const Dropdown = () => {
     setPagination(1)
     setStatus(statusValue)
     setSpecies(speciesValue)
+    setSearch(searchValue)
     setVisible(false)
   }
 

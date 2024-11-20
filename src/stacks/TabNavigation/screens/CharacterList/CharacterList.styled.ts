@@ -6,20 +6,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  content: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 16,
+  },
   topContainer: {
     marginBottom: 'auto',
-  },
-  card: {
-    width: 358,
-    height: 224,
-    display: "flex",
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    borderWidth: 1,
-    borderRadius: 24,
-    borderColor: '#224229',
-    backgroundColor: '#F4F6F5'
   },
   infoContainer: {
     display: 'flex',
@@ -39,7 +32,6 @@ export const styles = StyleSheet.create({
     fontSize: 36,
     color: '#162C1B',
     marginRight: 'auto',
-    marginLeft: 16,
-    marginVertical: 16,
+    marginBottom: 16,
   },
 });

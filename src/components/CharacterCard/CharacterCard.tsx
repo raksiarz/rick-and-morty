@@ -24,6 +24,7 @@ const TextTag = ({ title, value}: TextTagProps) => {
 const CharacterCard = ({ character }: CharacterCardProps) => {
 
   return (
+    <View style={{ width: '100%'}}>
       <View style={styles.card}>
         <View style={styles.infoContainer}>
           <TextTag title='name' value={character.name} />
@@ -35,6 +36,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
           <LikeButton id={character.id} />
         </View>
       </View>
+    </View>
   )
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {View, Text, Pressable, FlatList} from 'react-native';
-import { useAtomValue, useSetAtom, atom, useAtom } from 'jotai';
+import { useAtomValue, useSetAtom, atom } from 'jotai';
 import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
@@ -10,7 +10,7 @@ import { selectedCharacterAtom } from '../CharacterList/CharacterList.screen';
 import { fetchingAtom } from '../CharacterList/CharacterList.screen';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
 import {styles} from './FavoriteCharacters.styled';
-import { CharacterInfo, Species, Status } from '../../../../types';
+import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
@@ -27,7 +27,13 @@ const displayedFavouritesAtom = atom((get) => {
 
   return favourites.filter(f => {
     if(f.name.includes(search)) {
-      return true
+      let includes = true
+      if(species && species === f.species.toLowerCase()) {
+        includes = false
+      } else if(status && status !== f.status.toLowerCase()) {
+        includes = false
+      }
+      return includes
     }
     return false
   })
@@ -78,7 +84,7 @@ const FavouriteCharacters = () => {
   const areIdsEmpty = useAtomValue(areIdsEmptyAtom)
 
   if(areIdsEmpty) {
-    return <Text style={{ marginBottom: 'auto' }} >Favourites are empty</Text>
+    return <Text style={{ flex: 1, textAlign: 'center', marginBottom: 'auto', marginTop: 25 }} >Favourites are empty</Text>
   }
 
   return (
@@ -112,11 +118,13 @@ const FavoriteCharactersScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.topContainer}>
-        <Text style={styles.title}>Characters</Text>
-        <SearchAndFilter />
+      <View style={styles.content}>
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>Characters</Text>
+          <SearchAndFilter />
+        </View>
+        <FavouriteCharacters />
       </View>
-      <FavouriteCharacters />
     </View>
   );
 };

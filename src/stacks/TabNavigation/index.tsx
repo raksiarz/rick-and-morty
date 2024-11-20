@@ -8,7 +8,6 @@ import styles from './TabNavigation.styled';
 const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ navigation, state }: any) => {
-  console.log('state: ', state)
   return (
     <View style={styles.tabBarContainer}>
       <Pressable 

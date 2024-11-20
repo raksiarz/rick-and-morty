@@ -9,8 +9,8 @@ import PaginationButtons, { paginationAtom } from '../../../../components/Pagina
 import SearchAndFilter from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { searchAtom, statusAtom, speciesAtom } from '../../../../components/SearchAndFilter/SearchAndFilter';
 import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDetails/CharacterDetails.screen';
-import {styles} from './CharacterList.styled';
 import { CharacterInfo } from '../../../../types'
+import {styles} from './CharacterList.styled';
 import * as api from '../../../../api';
 
 export const selectedCharacterAtom = atom<number>()
@@ -50,7 +50,7 @@ const CharactersList = () => {
   const fetching = useAtomValue(fetchingAtom)
 
   if(fetching) {
-    return <Text style={{ flex: 1, marginTop: 25 }}>Loading...</Text>
+    return <Text style={{ flex: 1, textAlign: 'center', marginTop: 25 }}>Loading...</Text>
   }
 
   return (
@@ -96,11 +96,13 @@ const CharacterListScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.topContainer}>
-        <Text style={styles.title}>Characters</Text>
-        <SearchAndFilter />
+      <View style={styles.content}>
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>Characters</Text>
+          <SearchAndFilter />
+        </View>
+        <CharactersList />
       </View>
-      <CharactersList />
     </View>
   );
 };

@@ -6,17 +6,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  content: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 16,
+  },
   title: {
     fontWeight: 500,
     fontSize: 36,
     color: '#162C1B',
     marginRight: 'auto',
-    marginLeft: 16,
-    marginVertical: 16,
-  },
-  listContainer: {
-    flexDirection: 'column',
-    gap: 50
+    marginBottom: 16,
   },
   topContainer: {
     marginBottom: 'auto',
