@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
-import {Text, View, Image, Button } from 'react-native';
+import {Text, View, Image} from 'react-native';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { selectedCharacterAtom } from '../../../TabNavigation/screens/CharacterList/CharacterList.screen';
 import LikeButton from '../../../../components/LikeButton/LikeButton';
-import Header from '../../../../components/Header/Header';
+import Footer from '../../../../components/Footer/Footer';
 import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api';
 import {styles} from './CharacterDetails.styled';
-import { useNavigation } from '@react-navigation/native';
-import { MainStackNavigationProp } from '../../../Main/Main.routes';
-import { TabStackNavigationProp } from '../../../TabNavigation/TabNavigation.routes';
 
 interface TextTagProps {
   title: string

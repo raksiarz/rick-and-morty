@@ -12,6 +12,7 @@ import { characterInfoAtom } from '../../../CharacterDetails/screens/CharacterDe
 import {styles} from './FavoriteCharacters.styled';
 import { CharacterInfo, Species, Status } from '../../../../types';
 import * as api from '../../../../api'
+import Footer from '../../../../components/Footer/Footer';
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
 const areIdsEmptyAtom = atom((get) => {
@@ -70,6 +71,7 @@ const CharactersList = () => {
       renderItem={renderCard}
       keyExtractor={item => '' + item.id}
       contentContainerStyle={{ gap: 10 }}
+      ListFooterComponent={<Footer />}
     />
   )
 }
