@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {View, Text, Pressable, FlatList} from 'react-native';
-import { useAtomValue, useSetAtom, atom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom, atom } from 'jotai';
 import { useIsFocused } from '@react-navigation/native';
 import { favouritesIdsAtom } from '../../../../components/LikeButton/LikeButton';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
@@ -14,6 +14,7 @@ import { CharacterInfo } from '../../../../types';
 import * as api from '../../../../api'
 
 const favouriteCharactersAtom = atom<CharacterInfo[]>([])
+const favouritesFetchFailedAtom = atom<boolean>(false)
 const areIdsEmptyAtom = atom((get) => {
   const ids = get(favouritesIdsAtom)
   return !ids.length
@@ -67,7 +68,7 @@ const CharactersList = () => {
   const fetching = useAtomValue(fetchingAtom)
 
   if(fetching) {
-    return <Text style={{ flex: 1, marginTop: 25 }}>Loading...</Text>
+    return <Text style={{ flex: 1, textAlign: 'center', marginBottom: 'auto', marginTop: 25 }}>Loading...</Text>
   }
 
   return (
@@ -93,6 +94,7 @@ const FavouriteCharacters = () => {
 }
 
 const FavoriteCharactersScreen = () => {
+  const [favouritesFetchFailed, setFavouriteFetchFailed] = useAtom(favouritesFetchFailedAtom)
   const favouritesIds = useAtomValue(favouritesIdsAtom)
   const areIdsEmpty = useAtomValue(areIdsEmptyAtom)
   const setFavouriteCharacters = useSetAtom(favouriteCharactersAtom)
@@ -102,6 +104,7 @@ const FavoriteCharactersScreen = () => {
     async function getCharacters() {
       if(areIdsEmpty) return;
       try {
+        setFavouriteFetchFailed(false)
         const resp = await api.getCharacterInfo(favouritesIds)
         const json = await resp.json()
         const isArray = Array.isArray(json)
@@ -110,10 +113,15 @@ const FavoriteCharactersScreen = () => {
         ] : [json])
       } catch (err) {
         console.log('There was error getting favourite characters: ', err)
+        setFavouriteFetchFailed(true)
       }
     }
     getCharacters()
   }, [isFocused, favouritesIds])
+
+  if(favouritesFetchFailed) {
+    return <Text style={{ flex: 1, textAlign: 'center', marginBottom: 'auto', marginTop: 25 }} >Favourites fetch failed</Text>
+  }
 
   return (
     <View style={styles.container}>

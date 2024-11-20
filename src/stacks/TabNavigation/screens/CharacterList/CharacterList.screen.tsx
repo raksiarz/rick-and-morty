@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Pressable } from 'react-native';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, atom, useAtomValue, useSetAtom } from 'jotai';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {MainStackNavigationProp} from '../../../Main/Main.routes';
 import CharacterCard from '../../../../components/CharacterCard/CharacterCard';
@@ -17,6 +17,7 @@ export const selectedCharacterAtom = atom<number>()
 export const charactersAtom = atom<CharacterInfo[]>([])
 export const fetchingAtom = atom<boolean>(false)
 export const pagesAtom = atom<number>()
+const fetchFailedAtom = atom<boolean>(false)
 
 const Card = ({ item }: {item: CharacterInfo}) => {
   const setSelectedCharacter = useSetAtom(selectedCharacterAtom)
@@ -65,6 +66,7 @@ const CharactersList = () => {
 }
 
 const CharacterListScreen = () => {
+  const [fetchFailed, setFetchFailed] = useAtom(fetchFailedAtom)
   const setCharacters = useSetAtom(charactersAtom)
   const setFetching = useSetAtom(fetchingAtom)
   const setPages = useSetAtom(pagesAtom)
@@ -78,20 +80,28 @@ const CharacterListScreen = () => {
     async function getCharacters() {
       try {
         setFetching(true)
+        setFetchFailed(false)
         const resp = await api.getFiltered({page: pagination, name: search, status, species})
         const json = await resp.json()
         setPages(json.info.pages)
         setCharacters(() => [
           ...json.results as CharacterInfo[]
         ])
+
       } catch(err) {
         console.log('There was error getting all characters: ', err)
+        setFetchFailed(true)
       } finally {
         setFetching(false)
       }
     }
     getCharacters()
   }, [isFocused, pagination, search, species, status])
+
+  if(fetchFailed) {
+    return <Text style={{ flex: 1, textAlign: 'center', marginTop: 25 }}>Fetch failed</Text>
+ 
+  }
 
   return (
     <View style={styles.container}>
