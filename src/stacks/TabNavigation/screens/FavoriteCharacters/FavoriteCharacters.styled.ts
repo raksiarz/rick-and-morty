@@ -6,4 +6,19 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  content: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontWeight: 500,
+    fontSize: 36,
+    color: '#162C1B',
+    marginRight: 'auto',
+    marginBottom: 16,
+  },
+  topContainer: {
+    marginBottom: 'auto',
+  },
 });

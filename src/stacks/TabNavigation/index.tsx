@@ -1,13 +1,43 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View, Pressable, Text, Image } from 'react-native'
+import {BottomTabNavigationEventMap, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {CharacterListScreen} from './screens/CharacterList';
 import {FavoriteCharactersScreen} from './screens/FavoriteCharacters';
+import styles from './TabNavigation.styled';
+import { TabNavigationState, ParamListBase, NavigationHelpers } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
+interface CustomTabBarProps {
+  state: TabNavigationState<ParamListBase>
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>
+}
+
+const CustomTabBar = ({ navigation, state }: CustomTabBarProps) => {
+  return (
+    <View style={styles.tabBarContainer}>
+      <Pressable 
+        onPress={() => navigation.navigate('Characters')} 
+        style={[styles.tabBarButton, state.index === 0 && styles.tabBarButtonActive]}
+      >
+        <Image source={require('../../icons/characters.png')} style={styles.tabBarIcon}/>
+        <Text style={styles.tabBarText}>all characters</Text>
+      </Pressable>
+      <Pressable 
+        onPress={() => navigation.navigate('Favorites')} 
+        style={[styles.tabBarButton, state.index === 1 && styles.tabBarButtonActive]}
+      >
+        <Image source={require('../../icons/white-star-full.png')} style={styles.tabBarIcon}/>
+        <Text style={styles.tabBarText}>liked characters</Text>
+      </Pressable>
+    </View>
+  )
+}
 
 export const TabNavigationStack = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBar={({ navigation, state }) => <CustomTabBar navigation={navigation} state={state} />}
+    >
       <Tab.Screen
         name="Characters"
         component={CharacterListScreen}
