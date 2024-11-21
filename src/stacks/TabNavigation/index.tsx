@@ -1,13 +1,18 @@
 import React from 'react';
 import { View, Pressable, Text, Image } from 'react-native'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {BottomTabNavigationEventMap, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {CharacterListScreen} from './screens/CharacterList';
 import {FavoriteCharactersScreen} from './screens/FavoriteCharacters';
 import styles from './TabNavigation.styled';
+import { TabNavigationState, ParamListBase, NavigationHelpers } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
+interface CustomTabBarProps {
+  state: TabNavigationState<ParamListBase>
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>
+}
 
-const CustomTabBar = ({ navigation, state }: any) => {
+const CustomTabBar = ({ navigation, state }: CustomTabBarProps) => {
   return (
     <View style={styles.tabBarContainer}>
       <Pressable 

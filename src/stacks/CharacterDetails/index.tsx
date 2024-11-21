@@ -1,9 +1,14 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native'
 import Header from '../../components/Header/Header';
 import {CharacterDetailsStackRoutes} from './CharacterDetails.routes';
 import {CharacterDetailsScreen} from './screens';
+import { ParamListBase } from '@react-navigation/native';
+
+interface CustomHeaderProps {
+  navigation: NativeStackNavigationProp<ParamListBase, string, undefined>
+}
 
 const Stack = createNativeStackNavigator();
 const styles = StyleSheet.create({
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const CustomHeader = ({navigation}: any) => {
+const CustomHeader = ({navigation}: CustomHeaderProps) => {
   return (
     <>
       <Header />
